@@ -1,0 +1,6 @@
+.sidebar__nav {
+  flex: 0.3;
+  min-width: 13.5rem;
+  border-right: 0.1px solid black;
+  height: 5200px;
+}

@@ -1,0 +1,4 @@
+.card__custom {
+  flex: 0.8;
+  flex-wrap: wrap;
+}
