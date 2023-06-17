@@ -1,31 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchApiData } from "../../slice/DataSlice";
-import { addtocart } from "../../slice/CartSlice";
+import { addsize, addtocart, addtoppings } from "../../slice/CartSlice";
+import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 
 const ProductSingle = () => {
   const data = useSelector((state) => state.allCart.datareducer);
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchApiData());
   }, [dispatch]);
 
-  console.log(data);
-
   return (
     <>
-      {data.map((items) => {
+      {data.map((item) => {
         return (
           <div
-            key={items.id}
+            key={item.id}
             style={{ width: "22rem" }}
             className="col-lg-4 col-md-4 col-sm-12 mt-5"
           >
             <div className="card">
               <img
-                src={items.img_url}
+                src={item.img_url}
                 className="card-img-top"
                 alt="Card Image"
               />
@@ -36,12 +42,12 @@ const ProductSingle = () => {
                     fontWeight: "bolder",
                   }}
                 >
-                  {items.name}
+                  {item.name}
                 </h5>
-                <p className="card-text">{items.description}</p>
-                <p className="card-text">$ {items.price}</p>
-                <h6>Rating-{items.rating}</h6>
-                {items.isVeg ? (
+                <p className="card-text">{item.description}</p>
+                <p className="card-text">$ {item.price}</p>
+                <h6>Rating-{item.rating}</h6>
+                {item.isVeg ? (
                   <p
                     style={{
                       fontWeight: "bolder",
@@ -60,13 +66,103 @@ const ProductSingle = () => {
                 )}
 
                 <a
-                  onClick={() => dispatch(addtocart(items))}
+                  onClick={() => {
+                    dispatch(addtocart(item));
+                    handleShow();
+                  }}
                   className="btn btn-primary"
                 >
                   Add to Cart
                 </a>
               </div>
             </div>
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Add-ons and Toppings </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Select Size
+                <div>
+                  <input
+                    onChange={() => dispatch(addsize("Regular"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Regular</label>
+                </div>
+                <div>
+                  <input
+                    onChange={() => dispatch(addsize("Medium"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Medium</label>
+                </div>
+                <input
+                  onChange={() => dispatch(addsize("Large"))}
+                  className="mt-1"
+                  type="checkbox"
+                />
+                <label className="ms-2">Large</label>
+              </Modal.Body>
+              {item.toppings.isRadio ? (
+                <p className="ms-2">Elidgible for multiple toppings !!</p>
+              ) : (
+                <p className="ms-2">
+                  Elidgible for single topping,please select only one topping !!
+                </p>
+              )}
+
+              <Modal.Body>
+                Select Toppings
+                <div>
+                  <input
+                    onChange={() => dispatch(addtoppings("Red-pepper"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Red-pepper</label>
+                </div>
+                <div>
+                  <input
+                    onChange={() => dispatch(addtoppings("Onion"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Onion</label>
+                </div>
+                <div>
+                  <input
+                    onChange={() => dispatch(addtoppings("Extra cheese"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Extra cheese</label>
+                </div>
+                <div>
+                  <input
+                    onChange={() => dispatch(addtoppings("Black Olive"))}
+                    className="mt-1"
+                    type="checkbox"
+                  />
+                  <label className="ms-2">Black Olive</label>
+                </div>
+                <input
+                  onChange={() => dispatch(addtoppings("Grilled Mushroom"))}
+                  className="mt-1"
+                  type="checkbox"
+                />
+                <label className="ms-2">Grilled Mushroom</label>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Save Changes
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         );
       })}

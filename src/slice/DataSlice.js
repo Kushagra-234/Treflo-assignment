@@ -5,6 +5,7 @@ export const fetchApiData = createAsyncThunk("data/fetchApiData", async () => {
     "https://run.mocky.io/v3/ec196a02-aaf4-4c91-8f54-21e72f241b68"
   ); // Replace with your API endpoint
   const data = await response.json();
+
   return data;
 });
 

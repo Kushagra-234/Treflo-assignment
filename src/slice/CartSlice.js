@@ -5,14 +5,46 @@ const initialState = {
   cart: [],
   totalQuantity: 0,
   totalPrice: 0,
+  size: "",
+  toppings: "",
 };
+
+const initial_qty = 0;
+
+// console.log(arrval);
 
 const CartSlice = createSlice({
   name: "cartslice",
   initialState,
   reducers: {
     addtocart: (state, action) => {
-      state.cart.push(action.payload);
+      const arr = state.cart.map((object) => ({
+        ...object,
+        quantity: 1,
+      }));
+
+      const substance = arr.find((item) => item.id === action.payload.id);
+      if (substance) {
+      } else {
+        state.cart.push(action.payload);
+      }
+
+      state.totalQuantity += 1;
+    },
+
+    increasetotalcount: (state, action) => {
+      state.totalQuantity += 1;
+    },
+
+    decreasetotalcount: (state, action) => {
+      state.totalQuantity -= 1;
+    },
+
+    addsize: (state, action) => {
+      state.size = action.payload;
+    },
+    addtoppings: (state, action) => {
+      state.toppings = action.payload;
     },
   },
 });
@@ -20,3 +52,11 @@ const CartSlice = createSlice({
 export default CartSlice.reducer;
 
 export const { addtocart } = CartSlice.actions;
+
+export const {
+  updateSubstances,
+  increasetotalcount,
+  decreasetotalcount,
+  addsize,
+  addtoppings,
+} = CartSlice.actions;

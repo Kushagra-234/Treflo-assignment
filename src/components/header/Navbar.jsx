@@ -7,8 +7,10 @@ import {
   MDBInputGroup,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function App() {
+  const { totalQuantity } = useSelector((state) => state.allCart.cartreducer);
   return (
     <MDBNavbar light bgColor="light">
       <MDBContainer fluid>
@@ -21,7 +23,7 @@ export default function App() {
           All Pizzas
         </span>
         <MDBBtn color="dark">
-          <Link to="/cart">Cart(0)</Link>
+          <Link to="/cart">Cart({totalQuantity})</Link>
         </MDBBtn>
       </MDBContainer>
     </MDBNavbar>

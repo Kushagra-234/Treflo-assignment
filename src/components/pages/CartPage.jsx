@@ -1,14 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { decreasetotalcount, increasetotalcount } from "../../slice/CartSlice";
 
 const CartPage = () => {
-  const dispatch = useDispatch();
-
-  const { cart, totalQuantity, totalPrice } = useSelector(
+  const { cart, totalQuantity, size, totalPrice, toppings } = useSelector(
     (state) => state.allCart.cartreducer
   );
 
-  console.log(cart);
+  console.log(size);
+  const arr = cart.map((object) => ({
+    ...object,
+    quantity: 1,
+  }));
+  const dispatch = useDispatch();
+  const [qty, setQty] = useState(arr);
+
+  const handleIncreaseCount = (index, key) => {
+    const updatedArray = [...qty];
+    updatedArray[index] = {
+      ...updatedArray[index],
+      [key]: updatedArray[index][key] + 1,
+    };
+    setQty(updatedArray);
+  };
+
+  const handledecreaseCount = (index, key) => {
+    const updatedArray = [...qty];
+    updatedArray[index] = {
+      ...updatedArray[index],
+      [key]: updatedArray[index][key] - 1,
+    };
+    setQty(updatedArray);
+  };
 
   return (
     <div>
@@ -21,8 +44,8 @@ const CartPage = () => {
                   <h5 className="mb-0">items</h5>
                 </div>
                 <div className="card-body">
-                  {cart?.map((data) => (
-                    <div className="row">
+                  {qty?.map((data, ind) => (
+                    <div className="row" key={arr.id}>
                       <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
                         <div
                           className="bg-image hover-overlay hover-zoom ripple rounded"
@@ -38,18 +61,11 @@ const CartPage = () => {
 
                       <div className="col-lg-5 col-md-6 mb-4 mb-lg-0">
                         <p>
-                          <strong>{data.title}</strong>
+                          <strong>{data.name}</strong>
                         </p>
 
-                        <button
-                          type="button"
-                          className="btn btn-primary btn-sm me-1 mb-2"
-                          data-mdb-toggle="tooltip"
-                          title="Remove item"
-                          onClick={() => dispatch(removeItem(data.id))}
-                        >
-                          <i className="fas fa-trash"></i>
-                        </button>
+                        <div>Size-{size}</div>
+                        <div>Toppings-{toppings}</div>
                       </div>
 
                       <div className="col-lg-4 col-md-6 mb-4 mb-lg-0">
@@ -59,9 +75,10 @@ const CartPage = () => {
                         >
                           <button
                             className="btn btn-primary px-3 me-2"
-                            onClick={() =>
-                              dispatch(decreaseItemQuantity(data.id))
-                            }
+                            onClick={() => {
+                              handledecreaseCount(ind, "quantity");
+                              dispatch(decreasetotalcount());
+                            }}
                           >
                             <i className="fas fa-minus"></i>
                           </button>
@@ -71,27 +88,29 @@ const CartPage = () => {
                               id="form1"
                               min="0"
                               name="quantity"
+                              // value={quantity}
                               type="number"
                               className="form-control"
                               onChange={() => null}
                             />
                             <label className="form-label" for="form1">
-                              {data.price} Qty
+                              {data.quantity} Qty
                             </label>
                           </div>
 
                           <button
                             className="btn btn-primary px-3 ms-2"
-                            onClick={() =>
-                              dispatch(increaseItemQuantity(data.id))
-                            }
+                            onClick={() => {
+                              handleIncreaseCount(ind, "quantity");
+                              dispatch(increasetotalcount());
+                            }}
                           >
                             <i className="fas fa-plus"></i>
                           </button>
                         </div>
 
                         <p className="text-start text-md-center">
-                          <strong>{data.price}</strong>
+                          <strong>Price - ${data.price}</strong>
                         </p>
                       </div>
                       <hr className="my-4" />
