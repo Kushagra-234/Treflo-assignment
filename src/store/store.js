@@ -5,3 +5,7 @@ export const store = configureStore({
     allCart: rootreducer,
   },
 });
+
+
+
+// global store handling all values 

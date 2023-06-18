@@ -8,3 +8,5 @@ const rootreducer = combineReducers({
 });
 
 export default rootreducer;
+
+// rootreducer used for combining both data and cart reducer
