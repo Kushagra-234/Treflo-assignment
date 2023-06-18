@@ -130,20 +130,11 @@ const CartPage = () => {
                       Total Quantity
                       <span>{totalQuantity}</span>
                     </li>
-
-                    <li className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                      <div>
-                        <strong>Total amount</strong>
-                      </div>
-                      <span>
-                        <strong>{totalPrice}</strong>
-                      </span>
-                    </li>
                   </ul>
 
                   <button
                     type="button"
-                    className="btn btn-primary btn-lg btn-block"
+                    className="btn btn-primary btn-lg btn-block mt-3"
                   >
                     Go to checkout
                   </button>
