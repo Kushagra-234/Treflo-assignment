@@ -5,12 +5,13 @@ import { addsize, addtocart, addtoppings } from "../../slice/CartSlice";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
 
 const ProductSingle = () => {
   const data = useSelector((state) => state.allCart.datareducer);
+  const { sort, rating } = useSelector((state) => state.allCart.cartreducer);
+
   const [show, setShow] = useState(false);
+  console.log(rating);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,9 +21,39 @@ const ProductSingle = () => {
     dispatch(fetchApiData());
   }, [dispatch]);
 
+  //  logic for sorting on basis of price
+  const getSortedProducts = (data, sort) => {
+    const sortedProducts = [...data].sort((item1, item2) =>
+      sort === "lth"
+        ? item1.price - item2.price
+        : sort === "htl"
+        ? item2.price - item1.price
+        : data
+    );
+    return sortedProducts;
+  };
+
+  const sortedProducts = getSortedProducts(data, sort);
+
+  const getSortedProductsbyrating = (data, sort) => {
+    const sortedProducts = [...data].sort((item1, item2) =>
+      rating === "lth"
+        ? item1.rating - item2.rating
+        : sort === "htl"
+        ? item2.rating - item1.rating
+        : data
+    );
+    return sortedProducts;
+  };
+
+  const sortedProductsbyrating = getSortedProductsbyrating(
+    sortedProducts,
+    rating
+  );
+
   return (
     <>
-      {data.map((item) => {
+      {sortedProductsbyrating.map((item) => {
         return (
           <div
             key={item.id}

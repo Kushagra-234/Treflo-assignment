@@ -7,6 +7,8 @@ const initialState = {
   totalPrice: 0,
   size: "",
   toppings: "",
+  sort: "",
+  rating: "",
 };
 
 const initial_qty = 0;
@@ -46,6 +48,12 @@ const CartSlice = createSlice({
     addtoppings: (state, action) => {
       state.toppings = action.payload;
     },
+    sort: (state, action) => {
+      state.sort = action.payload;
+    },
+    rating: (state, action) => {
+      state.rating = action.payload;
+    },
   },
 });
 
@@ -59,4 +67,6 @@ export const {
   decreasetotalcount,
   addsize,
   addtoppings,
+  sort,
+  rating,
 } = CartSlice.actions;
