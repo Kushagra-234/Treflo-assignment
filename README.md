@@ -49,7 +49,7 @@ Customers can add more than one quantity.
 
 
 
-11- All selected items with selected add-on/toppings and quantity will be displayed on the Cart screen. User can edit the quantity from the cart screen.
+11- All selected items with selected add-on/toppings and quantity will be displayed on the Cart screen. User can edit the quantity from the cart screen. user can add item from homepage but edit quantity only in cart functionality as asked in assignment
 
 
 12- fully responsive for all mobile screens
